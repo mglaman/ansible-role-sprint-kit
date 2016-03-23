@@ -1,0 +1,12 @@
+[Desktop Entry]
+name=Sprint kit
+Comment=Start the Sprint Kit, performing any necessary setup first.
+TryExec=sprint-kit-runner
+Exec=sprint-kit-runner
+Icon=utilities-terminal
+Type=Application
+Categories=Utility;Application
+StartupNotify=true
+OnlyShowIn=GNOME;Unity;
+Terminal=true
+Name[en_US]=Sprint Kit

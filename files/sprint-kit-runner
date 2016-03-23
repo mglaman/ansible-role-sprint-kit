@@ -1,0 +1,53 @@
+#!/usr/bin/env bash
+
+echo "Welcome to the Sprint Kit"
+
+KIT_INSTALLED=$HOME/.kit-installed
+BROWSER=firefox
+SPRINT_DOC_URL=https://www.drupal.org/documentation
+SPRINT_DOC_OPENED=no
+
+# Setup Panopoly source code.
+if ! [ -a "$KIT_INSTALLED" ]; then
+	echo
+	echo "*********************************************************************"
+	echo "Setting up your Drupal environments:"
+	echo "	  1.x: /var/www/"
+	echo
+	echo "... and building, installing and running a test."
+	echo
+	if [ -n $DISPLAY ]; then
+		echo "This may take a while, so I opened the documentation"
+		echo "while you wait! This is a great time to grab a coffee too. :-)"
+		$BROWSER $SPRINT_DOC_URL >/dev/null 2>&1 &
+		SPRINT_DOC_OPENED=yes
+	else
+		echo "This may take a while, so you'd better grab a coffee! :-)"
+	fi
+	echo "*********************************************************************"
+	echo
+
+	echo
+	echo "*********************************************************************"
+	echo "Ok! You've got the code and Drupal should be installed."
+	echo "*********************************************************************"
+	echo
+	touch $KIT_INSTALLED
+fi
+
+BROWSER_CMD=""
+
+# Open a web-browser pointing at the sprint document (if we haven't already)
+if [ $SPRINT_DOC_OPENED = no ]; then
+	BROWSER_CMD="$BROWSER_CMD -new-tab -url $SPRINT_DOC_URL"
+fi
+
+# Open a web-browser pointing at the local Commerce sites.
+BROWSER_CMD="$BROWSER_CMD -new-tab -url https://kiwiirc.com/client/irc.freenode.net?server_select_channel=#drupal-commerce"
+
+# Do it!
+$BROWSER $BROWSER_CMD >/dev/null 2>&1 &
+
+echo
+echo "Press CTRL-C to continue."
+cat

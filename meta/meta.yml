@@ -1,0 +1,26 @@
+
+---
+galaxy_info:
+  author: Matt Glaman
+  description: sprint kit role
+  company:
+  license:
+    - MIT
+  min_ansible_version: 1.2
+  platforms:
+    - name: EL
+      versions:
+        - 7
+    - name: Fedora
+      versions:
+        - 21
+    - name: Ubuntu
+      versions:
+        - trusty
+
+  categories:
+    - development
+
+dependencies:
+  - geerlingguy.apache
+  - geerlingguy.php

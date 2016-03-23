@@ -1,0 +1,35 @@
+---
+- name: Get VirtualBox version.
+  shell: cat /home/{{ sprint_kit_user }}/.vbox_version
+  register: virtualbox_version
+
+- name: Mount VirtualBox guest additions ISO.
+  mount: >
+    name=/tmp/vbox
+    src=/home/{{ sprint_kit_user }}/VBoxGuestAdditions_{{ virtualbox_version.stdout }}.iso
+    opts=loop
+    state=mounted
+    fstype=iso9660
+
+- name: Run VirtualBox guest additions installation.
+  shell: sh /tmp/vbox/VBoxLinuxAdditions.run
+  failed_when: false
+
+- name: Unmount VirtualBox guest additions ISO.
+  mount: >
+    name=/tmp/vbox
+    src=/home/{{ sprint_kit_user }}/VBoxGuestAdditions_{{ virtualbox_version.stdout }}.iso
+    state=unmounted
+    fstype=iso9660
+
+- name: Install VirtualBox Guest DKMS
+  apt: pkg="{{ item }}" state=installed
+  with_items:
+    - dkms
+    - fakeroot
+    - libfakeroot
+    - virtualbox-guest-utils
+    - virtualbox-guest-x11
+    - dpkg-dev
+    - debhelper
+    - virtualbox-guest-dkms

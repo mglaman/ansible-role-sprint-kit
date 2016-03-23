@@ -1,0 +1,29 @@
+---
+sprint_kit_user: root
+sprint_kit_remove_items:
+    - brasero
+    - cheese
+    - empathy
+    - example-content
+    - gnome-sudoku
+    - gnomine
+    - gwibber
+    - libreoffice-calc
+    - libreoffice-gnome
+    - libreoffice-impress
+    - libreoffice-math
+    - libreoffice-ogltrans
+    - libreoffice-pdfimport
+    - libreoffice-presentation-minimizer
+    - libreoffice-style-human
+    - libreoffice-writer
+    - mahjongg
+    - rhythmbox
+    - rhythmbox-plugin-magnatune
+    - rhythmbox-ubuntuone
+    - shotwell
+    - simple-scan
+    - telepathy-idle
+    - thunderbird
+    - thunderbird-gnome-support
+    - transmission-gtk

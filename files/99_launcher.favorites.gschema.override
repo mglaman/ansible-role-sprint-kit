@@ -1,0 +1,2 @@
+[com.canonical.Unity.Launcher]
+favorites = ['application://ubiquity.desktop', 'application://nautilus.desktop', 'application://sprint-kit.desktop', 'application://atom.desktop', 'application://gnome-terminal.desktop', 'application://firefox.desktop' ]
