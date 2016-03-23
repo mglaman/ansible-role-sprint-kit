@@ -1,5 +1,9 @@
 ---
 - hosts: localhost
   remote_user: root
+  vars:
+    sprint_kit_user: tester
   roles:
+    - geerlingguy.apache
+    - geerlingguy.php
     - ansible-role-sprint-kit

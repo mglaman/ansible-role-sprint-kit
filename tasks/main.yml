@@ -1,15 +1,18 @@
 ---
-  # Run initial clean up of the machine before installing the UI et all.
-- include: cleanup.yml
 
-# Set up GuestAdditions and DKMS.
+# Set up GuestAdditions and DKMS, if available.
+- name: Check VirtualBox version
+  stat: path=/home/{{ sprint_kit_user }}/.vbox_version
+  register: check_virtualbox_version_result
+
 - include: virtualbox.yml
+  when: check_virtualbox_version_result.stat.exists
 
 - name: Copy init-environment command
   copy: src=sprint-kit-runner dest=/usr/local/bin/sprint-kit-runner mode=0755
 
 - name: Make /var/www writable by www-data
-  file: path=/var/www owner={{ sprint_kit_user }} group=www-data mode="g+rws"ßßß
+  file: path=/var/www owner={{ sprint_kit_user }} group=www-data mode="g+rws"
 
 - name: Add our user to the www-data group
   user: name={{ sprint_kit_user }} groups=www-data append=yes
@@ -17,7 +20,7 @@
 # @todo Curl can reach these but FireFox can't without this?
 - name: Add subdomains to host file
   lineinfile: dest=/etc/hosts regexp='.*{{ item.servername }}$' line="127.0.0.1 {{item.servername}}" state=present
-  with_items: apache_vhosts
+  with_items: "{{ apache_vhosts }}"
 
  # @todo: geerlingguy.php how do we do this
 - name: Install PHP extensions
@@ -36,31 +39,30 @@
 - name: Update LightDM
   template: src=lightdm.conf dest=/etc/lightdm/lightdm.conf.d/50-sprint-kit.conf
 
-- name: Remove unneeded desktop recommended items
-  apt: "pkg={{ item }} state=absent"
-  with_items: "{{ sprint_kit_remove_items }}"
-
-- name: Ensure user bin directory
-  file: path=/home/{{ sprint_kit_user }}/bin state=directory owner={{ sprint_kit_user }} group={{ sprint_kit_user }}
-
 - name: Copy desktop items to /usr/share/applications
   copy: src={{ item }} dest=/usr/share/applications/{{ item }} owner=root group=root mode=0644
   with_items:
     - sprint-kit.desktop
 
 - name: Ensure user desktop directory
-  file: path=/home/{{ kit_ui_user }}/Desktop state=directory owner={{ kit_ui_user }} group={{ kit_ui_user }}
+  file: path=/home/{{ sprint_kit_user }}/Desktop state=directory owner={{ sprint_kit_user }} group={{ sprint_kit_user }}
 
 - name: Setup desktop icons
-  shell: cp /usr/share/applications/{{ item }} /home/{{ sprint_kit_user }}/Desktop; chmod +x /home/{{ sprint_kit_user }}/Desktop/{{ item }};
+  # shell: cp /usr/share/applications/{{ item }} /home/{{ sprint_kit_user }}/Desktop; chmod +x /home/{{ sprint_kit_user }}/Desktop/{{ item }};
+  shell: cp /usr/share/applications/{{ item }} /home/{{ sprint_kit_user }}/Desktop;
   with_items:
-    - gnome-terminal.desktop
+    # - gnome-terminal.desktop
     - sprint-kit.desktop
-  become: "{{ sprint_kit_user }}"
+  become: yes
+  become_user: "{{ sprint_kit_user }}"
 
 - name: Set the favorites
   shell: gsettings set com.canonical.Unity.Launcher favorites "['application://ubiquity.desktop', 'application://nautilus.desktop', 'application://sprint-kit.desktop', 'application://gnome-terminal.desktop', 'application://firefox.desktop' ]"
-  become: "{{ sprint_kit_user }}"
+  become: yes
+  become_user: "{{ sprint_kit_user }}"
 
 - name: Set the favorites
   copy: src=99_launcher.favorites.gschema.override dest=/usr/share/glib-2.0/schemas/99_launcher.favorites.gschema.override owner=root group=root mode=0644
+
+  # Run initial clean up of the machine before installing the UI et all.
+- include: cleanup.yml

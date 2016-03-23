@@ -1,5 +1,8 @@
 ---
-# Cleanup tasks.
+- name: Remove unneeded desktop recommended items
+  apt: "pkg={{ item }} state=absent"
+  with_items: "{{ sprint_kit_remove_items }}"
+
 - name: Remove unneeded packages.
   apt: "pkg={{ item }} state=absent"
   with_items:
@@ -19,11 +22,11 @@
 - name: Remove uneeded packages (by regex).
   shell: "apt-get -y remove '.*-dev$'"
 
-- name: Clean up apt.
-  command: "{{ item }}"
-  with_items:
-    - apt-get -y autoremove
-    - apt-get -y clean
+# http://serverfault.com/a/699202
+- name: Autoremove unused packages
+  command: apt-get -y autoremove
+  register: autoremove_output
+  changed_when: "'The following packages will be REMOVED' in autoremove_output.stdout"
 
-- name: Update system
-  apt: upgrade=yes update_cache=yes
+# - name: Update system
+#   apt: upgrade=yes update_cache=yes
