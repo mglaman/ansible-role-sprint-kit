@@ -8,8 +8,11 @@
 - include: virtualbox.yml
   when: check_virtualbox_version_result.stat.exists
 
-- name: Copy init-environment command
-  copy: src=sprint-kit-runner dest=/usr/local/bin/sprint-kit-runner mode=0755
+- name: Copy sprint-kit-motd command
+  copy: src={{ sprint_kit_motd_script }} dest=/usr/local/bin/sprint-kit-motd mode=0755
+
+- name: Copy sprint-kit-runner command
+  copy: src={{ sprint_kit_runner_script }} dest=/usr/local/bin/sprint-kit-runner mode=0755
 
 - name: Make /var/www writable by www-data
   file: path=/var/www owner={{ sprint_kit_user }} group=www-data mode="g+rws"

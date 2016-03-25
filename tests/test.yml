@@ -7,3 +7,8 @@
     - geerlingguy.apache
     - geerlingguy.php
     - ansible-role-sprint-kit
+  post_tasks:
+    - name: Test MOTD
+      shell: sprint-kit-motd
+    - name: Test runner
+      shell: sprint-kit-runner

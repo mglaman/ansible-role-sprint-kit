@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+echo
+echo "*********************************************************************"
+echo "Setting up your Drupal environments:"
+echo "	  Drupal 8: /var/www/"
+echo
+echo "... and building, installing and running a test."
+echo
+echo "This may take a while, so I opened the documentation"
+echo "while you wait! This is a great time to grab a coffee too. :-)"
+echo "*********************************************************************"
+echo

@@ -1,4 +1,6 @@
 ---
+sprint_kit_runner_script: ./sprint-kit-runner
+sprint_kit_motd_script: ./sprint-kit-motd
 sprint_kit_user: root
 sprint_kit_remove_items:
     - brasero

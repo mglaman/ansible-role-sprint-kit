@@ -9,23 +9,10 @@ SPRINT_DOC_OPENED=no
 
 # Setup Panopoly source code.
 if ! [ -a "$KIT_INSTALLED" ]; then
-	echo
-	echo "*********************************************************************"
-	echo "Setting up your Drupal environments:"
-	echo "	  1.x: /var/www/"
-	echo
-	echo "... and building, installing and running a test."
-	echo
-	if [ -n $DISPLAY ]; then
-		echo "This may take a while, so I opened the documentation"
-		echo "while you wait! This is a great time to grab a coffee too. :-)"
-		$BROWSER $SPRINT_DOC_URL >/dev/null 2>&1 &
-		SPRINT_DOC_OPENED=yes
-	else
-		echo "This may take a while, so you'd better grab a coffee! :-)"
-	fi
-	echo "*********************************************************************"
-	echo
+	sprint-kit-motd
+
+	$BROWSER $SPRINT_DOC_URL >/dev/null 2>&1 &
+	SPRINT_DOC_OPENED=yes
 
 	echo
 	echo "*********************************************************************"
